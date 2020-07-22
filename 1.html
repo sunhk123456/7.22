@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            margin-left: 10px;
+            line-height: 20px;
+        }
+        
+        .over {
+            width: 80%;
+            float: right;
+            height: 500px;
+            font-size: 200px;
+            /* margin-top: 100px; */
+            padding-top: 100px;
+            display: none;
+        }
+        
+        .sub {
+            width: 100px;
+            height: 100px;
+            z-index: 10000;
+            /* display: none; */
+            position: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grade">成绩为:
+        <span>0</span>
+    </div>
+    <div class="life">
+        生命值为：<span>10</span>
+    </div>
+    <div class="over"></div>
+    <input type="submit" class="sub" value="重新开始">
+    <script>
+        var letter = ["A", "B", "C", "D", "E", "F"]
+        var divs = []
+        var grade = 0;
+        var life = 10;
+        var over = document.querySelector(".over")
+        var sub = document.querySelector(".sub")
+
+        function create(num) {
+            var cur = []
+
+
+            for (var i = 0; i < num; i++) {
+                cur.push(letter[Math.floor(letter.length * Math.random())])
+                var div = document.createElement("div")
+                div.innerHTML = cur[i]
+                document.body.appendChild(div)
+
+                div.style.cssText = "width:50px;height:50px;float:left; position:absolute; line-height:" + Math.floor(Math.random() * 32 + 16) + "px;text-align: center; font-size: 50px; left:" + Math.floor(Math.random() * 1000 + 2) + "px";
+
+                divs.push(div)
+
+            }
+        }
+
+        create(3)
+
+        var speed = 5
+        console.log(document.body.clientHeight)
+
+        function yundong() {
+            for (var i = 0; i < divs.length; i++) {
+                divs[i].style.top = divs[i].offsetTop + speed + "px";
+
+            }
+            for (var i = 0; i < divs.length; i++) {
+                if (400 < divs[i].offsetTop) {
+                    document.body.removeChild(divs[i]);
+                    divs.splice(i, 1);
+                    life--
+                    life1.innerHTML = life
+                    create(1);
+
+                }
+            }
+            if (life <= 0) {
+                clearInterval(t)
+                over.style.background = "red"
+                over.innerHTML = "游戏结束"
+                sub.style.display = "block"
+                over.style.display = "block"
+
+
+
+
+            }
+
+        }
+
+        sub.onclick = function() {
+            life = 10;
+            t = setInterval(yundong, 50);
+            sub.style.display = "none"
+            over.style.display = "none"
+        }
+
+        t = setInterval(yundong, 50);
+        var grade1 = document.querySelector(".grade span")
+        var life1 = document.querySelector(".life span")
+        document.onkeydown = function(ev) {
+
+
+
+            var letter = String.fromCharCode(ev.keyCode);
+
+            for (var i = 0; i < divs.length; i++) {
+                if (divs[i].innerHTML == letter) {
+                    document.body.removeChild(divs[i]);
+
+                    divs.splice(i, 1);
+                    create(1);
+                    grade = grade + 1
+
+                    grade1.innerHTML = grade
+                    break;
+
+
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
